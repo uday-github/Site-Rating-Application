@@ -1,4 +1,4 @@
-# Site_Rating-application-
+# Site-Rating-Application
 Add, Search  and rate websites 
 
 The application uses the framework Meteor.
