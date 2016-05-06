@@ -1,0 +1,147 @@
+<head>
+  <title>siteace</title>
+</head>
+
+<body>
+	
+</body>
+
+<template name = "ApplicationLayout">
+	{{>yield "navbar"}}
+	{{>yield "main"}}
+
+</template>
+
+
+<!-- navbar  - you will be putting the login functions here -->
+<template name = "navbar">
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="/">
+	        Site Ace
+	      </a>
+	     
+	      <!-- 
+		      the search box. 
+		      It is given the navbar-form class so that bootstrap
+		      put it in the top navbar
+    		-->
+	       <form class="navbar-form navbar-left js-search-website" role="search">
+		       	<div class = "form-group">
+	      			<input id="searchbox" type="text" class="form-control" placeholder="Search...">
+	    		</div><!--/form-group-->
+	    		 <button type="submit" class="btn btn-default">Submit</button>
+    		</form>
+
+    		<p class = "navbar-text navbar-right">
+	      	 	{{> loginButtons align="right"}}
+	  	  	</p>
+	    </div><!--/navbar-header-->
+	     
+	  </div><!--/contatiner-fluid-->
+	</nav>
+</template>
+
+<template name = "main_template">
+	<div class="container">
+	   {{#if currentUser}}
+		 {{> website_form}}
+	   {{/if}}
+		 {{> website_list}}
+	</div>
+</template>
+
+
+
+<!-- Use this template to make HTTP Requests -->
+
+<!-- 
+<template name = "http_request">
+	<div class = "container">
+		<form class = "js-http-request">
+		  <div class = "form-group">
+			<label for="url_1"> Enter the Site address to make HTTP request</label>
+			<input type="text" class = "form-control" id = "url_1" placeholder ="http://www.example.com"> 
+		  </div>
+
+		  <button type="submit" class="btn btn-default">Submit Request</button>
+		</form>
+	</div>
+</template>
+
+-->
+
+<template name="website_form">
+	<a class="btn btn-default js-toggle-website-form" href="#">
+  		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+	</a>
+	<div id="website_form" class="hidden_div">
+		<form class="js-save-website-form">
+		  <div class="form-group">
+		    <label for="url">Site address</label>
+		    <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com">
+		  </div>
+		  <div class="form-group">
+		    <label for="title">Title</label>
+		    <input type="text" class="form-control" id="title" placeholder="Mysite">
+		  </div>
+		    <div class="form-group">
+		    <label for="description">Description</label>
+		    <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ...">
+		  </div>
+
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+	</div>
+</template>
+
+<!-- template that displays several website items -->
+<template name="website_list">
+{{#if search_result}}	
+	<ol>
+	{{#each websites}}
+	{{>website_item}}
+	{{/each}}
+	</ol>
+{{else}}
+	<h1> No matching result found, please try again ! </h1>
+{{/if}}
+
+</template>
+
+<!-- template that displays individual website entries -->
+<template name="website_item">
+	<li>
+		<!-- <a href="{{url}}">{{title}}</a> -->
+		<a href="/{{title}}/{{_id}}">{{title}}</a>
+		<p>
+			{{description}}
+		</p>
+		<a href="#" class="btn btn-default js-upvote">
+			<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+		</a>
+		<a href="#" class="btn btn-default js-downvote">
+			<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+		</a>
+
+		<!-- you will be putting your up and down vote buttons in here! -->
+		<p> Upvotes : {{upvote_count}}  </p>
+		<p> Downvotes : {{downvote_count}} </p>
+		<p> Added on : {{createdOn}}</p>
+
+	</li>
+</template>
+
+
+<template name = "single_website">
+	<a href = "{{url}}"> {{title}} </a>
+	<h2> Description : </h2>
+	<p> {{description}} </p> 
+	
+	<div class="container">
+    	{{> commentsBox id=_id}}
+	</div>
+
+</template>
+
